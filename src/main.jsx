@@ -13,60 +13,120 @@ SUPABASE_URL && SUPABASE_KEY
 : null;
 
 const fallbackImages = {
-"Coiffure enfant":
-"https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=80",
-
-Coiffures:
-"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80",
+Onglerie:
+"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=85",
 
 Ongles:
-"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=85",
 
 Pédicure:
-"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=1200&q=85",
 
-Piercing:
-"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=900&q=80",
+Cils:
+"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1200&q=85",
 
 "Pose cils":
-"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=900&q=80",
-
-"Soins capillaires":
-"https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80",
-
-"Soins du visage":
-"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1200&q=85",
 
 Sourcils:
-"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=1200&q=85",
+
+Coiffure:
+"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
+
+"Coiffure enfant":
+"https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&q=85",
+
+Coiffures:
+"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
+
+"Soins capillaires":
+"https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=85",
+
+"Soins du visage":
+"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85",
+
+Visage:
+"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85",
+
+Piercing:
+"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=1200&q=85",
 };
 
 const defaultImage =
-"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80";
+"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85";
+
+/*
+Prestations de secours.
+Elles permettent au site de rester visible même si Supabase
+ne renvoie momentanément aucune donnée.
+*/
+const fallbackServices = [
+{
+id: "fallback-manucure",
+category: "Onglerie",
+name: "Manucure",
+min_price: 5000,
+max_price: 5000,
+duration_minutes: 60,
+appointment_required: true,
+image_url: fallbackImages.Onglerie,
+},
+{
+id: "fallback-pedicure",
+category: "Pédicure",
+name: "Pédicure",
+min_price: 7000,
+max_price: 7000,
+duration_minutes: 60,
+appointment_required: true,
+image_url: fallbackImages.Pédicure,
+},
+{
+id: "fallback-cils",
+category: "Cils",
+name: "Extension de cils",
+min_price: 15000,
+max_price: 15000,
+duration_minutes: 120,
+appointment_required: true,
+image_url: fallbackImages.Cils,
+},
+];
 
 function formatPrice(service) {
-if (service.min_price === service.max_price) {
-return `${Number(service.min_price).toLocaleString("fr-FR")} FCFA`;
+const min = Number(service.min_price || 0);
+const max = Number(service.max_price || 0);
+
+if (min === max) {
+return `${min.toLocaleString("fr-FR")} FCFA`;
 }
 
-return `${Number(service.min_price).toLocaleString(
+return `${min.toLocaleString(
 "fr-FR"
-)} – ${Number(service.max_price).toLocaleString(
-"fr-FR"
-)} FCFA`;
+)} – ${max.toLocaleString("fr-FR")} FCFA`;
+}
+
+function getLocalDate() {
+const now = new Date();
+const year = now.getFullYear();
+const month = String(now.getMonth() + 1).padStart(2, "0");
+const day = String(now.getDate()).padStart(2, "0");
+
+return `${year}-${month}-${day}`;
 }
 
 function Logo() {
 return (
-<div className="brand">
-<div className="brand-symbol">G</div>
+<div className="logo">
+<div className="logo-mark">G</div>
 
-<div>
-<div className="brand-title">
+<div className="logo-text">
+<div className="logo-name">
 GLOW <span>&amp;</span> SHINE
 </div>
 
-<div className="brand-subtitle">
+<div className="logo-subtitle">
 INSTITUT DE BEAUTÉ
 </div>
 </div>
@@ -81,25 +141,24 @@ const [selected, setSelected] = useState(null);
 
 const [date, setDate] = useState("");
 const [time, setTime] = useState("");
+
 const [name, setName] = useState("");
 const [phone, setPhone] = useState("");
 const [comment, setComment] = useState("");
 
 const [times, setTimes] = useState([]);
 const [message, setMessage] = useState("");
+
 const [loading, setLoading] = useState(true);
-const [bookingLoading, setBookingLoading] =
-useState(false);
+const [bookingLoading, setBookingLoading] = useState(false);
 
 useEffect(() => {
 async function loadServices() {
 setLoading(true);
+setMessage("");
 
 if (!supabase) {
-setServices([]);
-setMessage(
-"La connexion à Supabase n'est pas configurée."
-);
+setServices(fallbackServices);
 setLoading(false);
 return;
 }
@@ -112,13 +171,12 @@ const { data, error } = await supabase
 .order("name");
 
 if (error) {
-console.error(error);
-setServices([]);
-setMessage(
-"Impossible de charger les prestations."
-);
+console.error("Supabase services:", error);
+setServices(fallbackServices);
+} else if (data && data.length > 0) {
+setServices(data);
 } else {
-setServices(data || []);
+setServices(fallbackServices);
 }
 
 setLoading(false);
@@ -128,16 +186,11 @@ loadServices();
 }, []);
 
 const categories = useMemo(() => {
-return [
-"Toutes",
-...Array.from(
-new Set(
-services
+const values = services
 .map((service) => service.category)
-.filter(Boolean)
-)
-),
-];
+.filter(Boolean);
+
+return ["Toutes", ...Array.from(new Set(values))];
 }, [services]);
 
 const displayedServices = useMemo(() => {
@@ -166,24 +219,24 @@ if (!supabase) {
 return;
 }
 
-const dayOfWeek = new Date(
-`${date}T12:00:00`
-).getDay();
+const selectedDate = new Date(`${date}T12:00:00`);
+const dayOfWeek = selectedDate.getDay();
 
-const { data: businessHours, error: hoursError } =
-await supabase
+const { data: businessHours } = await supabase
 .from("business_hours")
 .select("*")
 .eq("day_of_week", dayOfWeek)
 .maybeSingle();
 
-if (hoursError || !businessHours?.is_open) {
+if (!businessHours?.is_open) {
 return;
 }
 
 const { data: bookings } = await supabase
 .from("bookings")
-.select("booking_time, booking_status")
+.select(
+"booking_time, booking_status, service_id"
+)
 .eq("booking_date", date);
 
 const { data: blockedSlots } = await supabase
@@ -210,17 +263,19 @@ String(slot.blocked_time).slice(0, 5)
 
 const available = [];
 
-let [hour, minute] = String(
+const opening = String(
 businessHours.opening_time
-)
-.slice(0, 5)
+).slice(0, 5);
+
+const closing = String(
+businessHours.closing_time
+).slice(0, 5);
+
+let [hour, minute] = opening
 .split(":")
 .map(Number);
 
-const [closingHour, closingMinute] = String(
-businessHours.closing_time
-)
-.slice(0, 5)
+const [closingHour, closingMinute] = closing
 .split(":")
 .map(Number);
 
@@ -228,35 +283,26 @@ const openingMinutes = hour * 60 + minute;
 const closingMinutes =
 closingHour * 60 + closingMinute;
 
-while (
-hour * 60 +
-minute +
-Number(selected.duration_minutes || 0) <=
+const duration = Number(
+selected.duration_minutes || 0
+);
+
+while (true) {
+const currentMinutes = hour * 60 + minute;
+
+if (
+currentMinutes + duration >
 closingMinutes
 ) {
-const currentMinutes = hour * 60 + minute;
+break;
+}
 
 const currentTime =
 `${String(hour).padStart(2, "0")}:` +
 `${String(minute).padStart(2, "0")}`;
 
-const duration = Number(
-selected.duration_minutes || 0
-);
-
-const endMinutes =
-currentMinutes + duration;
-
-const endHour = Math.floor(endMinutes / 60);
-const endMinute = endMinutes % 60;
-
-const validEnd =
-endHour * 60 + endMinute <=
-closingMinutes;
-
 if (
 currentMinutes >= openingMinutes &&
-validEnd &&
 !taken.has(currentTime) &&
 !blocked.has(currentTime)
 ) {
@@ -281,11 +327,19 @@ function selectService(service) {
 setSelected(service);
 setDate("");
 setTime("");
+setTimes([]);
 setMessage("");
 
-if (!service.appointment_required) {
-setTimes([]);
+window.setTimeout(() => {
+if (service.appointment_required) {
+document
+.getElementById("booking")
+?.scrollIntoView({
+behavior: "smooth",
+block: "start",
+});
 }
+}, 50);
 }
 
 function changeCategory(newCategory) {
@@ -293,8 +347,8 @@ setCategory(newCategory);
 setSelected(null);
 setDate("");
 setTime("");
-setMessage("");
 setTimes([]);
+setMessage("");
 }
 
 async function reserve(event) {
@@ -306,7 +360,7 @@ if (!selected?.appointment_required) {
 return;
 }
 
-if (!date || !time || !name || !phone) {
+if (!date || !time || !name.trim() || !phone.trim()) {
 setMessage(
 "Veuillez remplir tous les champs obligatoires."
 );
@@ -315,7 +369,7 @@ return;
 
 if (!supabase) {
 setMessage(
-"La connexion à Supabase n'est pas disponible."
+"Le système de réservation est momentanément indisponible."
 );
 return;
 }
@@ -349,13 +403,18 @@ setMessage(
 return;
 }
 
-const { data: existing } = await supabase
+const { data: existing, error: existingError } =
+await supabase
 .from("bookings")
 .select("id")
 .eq("booking_date", date)
 .eq("booking_time", `${time}:00`)
 .neq("booking_status", "cancelled")
 .limit(1);
+
+if (existingError) {
+throw existingError;
+}
 
 if (existing && existing.length > 0) {
 setMessage(
@@ -370,9 +429,9 @@ const { error } = await supabase
 service_id: selected.id,
 booking_date: date,
 booking_time: `${time}:00`,
-customer_name: name,
-customer_phone: phone,
-customer_comment: comment,
+customer_name: name.trim(),
+customer_phone: phone.trim(),
+customer_comment: comment.trim(),
 reservation_fee: 5000,
 payment_status: "pending",
 booking_status: "pending",
@@ -383,19 +442,19 @@ throw error;
 }
 
 setMessage(
-"Votre réservation est enregistrée. Redirection vers le paiement de l'acompte de 5 000 FCFA..."
+"Réservation enregistrée. Redirection vers le paiement de l'acompte de 5 000 FCFA..."
 );
 
 if (
 WAVE_URL &&
 !WAVE_URL.includes("COLLER_")
 ) {
-setTimeout(() => {
+window.setTimeout(() => {
 window.location.href = WAVE_URL;
 }, 1200);
 }
 } catch (error) {
-console.error(error);
+console.error("Réservation:", error);
 
 setMessage(
 error?.message ||
@@ -418,13 +477,15 @@ Institut de beauté · Réservation en ligne
 
 <main>
 <section className="hero">
-<div className="hero-content">
+<div className="hero-inner">
 <span className="eyebrow">
 GLOW &amp; SHINE
 </span>
 
 <h1>
-Réservez votre moment beauté
+Réservez votre
+<br />
+moment beauté
 </h1>
 
 <p>
@@ -435,18 +496,20 @@ votre soin en quelques clics.
 </section>
 
 <section className="category-section">
-<div className="section-heading">
-<div>
+<div className="container">
 <span className="eyebrow">
 NOS UNIVERS
 </span>
 
 <h2>Nos catégories</h2>
-</div>
-</div>
 
 <div className="category-list">
-{categories.map((item) => (
+{categories.map((item) => {
+const image =
+fallbackImages[item] ||
+defaultImage;
+
+return (
 <button
 key={item}
 type="button"
@@ -459,22 +522,22 @@ changeCategory(item)
 >
 {item !== "Toutes" && (
 <img
-src={
-fallbackImages[item] ||
-defaultImage
-}
+src={image}
 alt=""
 />
 )}
 
 <span>{item}</span>
 </button>
-))}
+);
+})}
+</div>
 </div>
 </section>
 
 <section className="services-section">
-<div className="section-heading">
+<div className="container">
+<div className="section-top">
 <div>
 <span className="eyebrow">
 PRESTATIONS
@@ -498,17 +561,17 @@ PRESTATIONS
 </div>
 
 {loading ? (
-<div className="loading">
+<div className="state-box">
 Chargement des prestations…
 </div>
 ) : displayedServices.length === 0 ? (
-<div className="empty">
+<div className="state-box">
 Aucune prestation disponible.
 </div>
 ) : (
 <div className="services-grid">
 {displayedServices.map((service) => {
-const requiresAppointment =
+const appointmentRequired =
 Boolean(
 service.appointment_required
 );
@@ -537,16 +600,20 @@ selectService(service)
 src={image}
 alt={service.name}
 loading="lazy"
+onError={(event) => {
+event.currentTarget.src =
+defaultImage;
+}}
 />
 
 <span
 className={`service-badge ${
-requiresAppointment
+appointmentRequired
 ? "appointment"
 : "walkin"
 }`}
 >
-{requiresAppointment
+{appointmentRequired
 ? "Sur rendez-vous"
 : "Sans rendez-vous"}
 </span>
@@ -558,6 +625,12 @@ requiresAppointment
 </span>
 
 <h3>{service.name}</h3>
+
+{service.description && (
+<p className="service-description">
+{service.description}
+</p>
+)}
 
 <div className="service-info">
 <strong>
@@ -571,7 +644,7 @@ requiresAppointment
 )}
 </div>
 
-{requiresAppointment ? (
+{appointmentRequired ? (
 <button
 type="button"
 className="service-action"
@@ -593,24 +666,32 @@ Disponible sans rendez-vous
 })}
 </div>
 )}
+</div>
 </section>
 
 {selected &&
 selected.appointment_required && (
-<section className="booking">
+<section
+id="booking"
+className="booking-section"
+>
+<div className="booking-card">
 <div className="booking-header">
 <div>
 <span className="eyebrow">
 RÉSERVATION
 </span>
 
-<h2>
-{selected.name}
-</h2>
+<h2>{selected.name}</h2>
+
+<p>
+Choisissez votre date et votre
+créneau.
+</p>
 </div>
 
 <div className="booking-price">
-Acompte
+<span>Acompte</span>
 <strong>5 000 FCFA</strong>
 </div>
 </div>
@@ -618,34 +699,37 @@ Acompte
 <form onSubmit={reserve}>
 <div className="form-grid">
 <label>
-Date
+<span>Date *</span>
+
 <input
 type="date"
-min={new Date()
-.toISOString()
-.slice(0, 10)}
+min={getLocalDate()}
 value={date}
 onChange={(event) => {
 setDate(event.target.value);
 setTime("");
+setMessage("");
 }}
 required
 />
 </label>
 
 <label>
-Créneau
+<span>Créneau *</span>
+
 <select
 value={time}
 onChange={(event) =>
 setTime(event.target.value)
 }
-required
 disabled={!date}
+required
 >
 <option value="">
 {date
+? times.length
 ? "Choisir un créneau"
+: "Aucun créneau disponible"
 : "Choisir d'abord une date"}
 </option>
 
@@ -661,20 +745,22 @@ value={item}
 </label>
 
 <label>
-Nom complet
+<span>Nom complet *</span>
+
 <input
 type="text"
 value={name}
 onChange={(event) =>
 setName(event.target.value)
 }
-placeholder="Votre nom"
+placeholder="Votre nom complet"
 required
 />
 </label>
 
 <label>
-Téléphone
+<span>Téléphone *</span>
+
 <input
 type="tel"
 value={phone}
@@ -687,7 +773,8 @@ required
 </label>
 
 <label className="full">
-Commentaire
+<span>Commentaire</span>
+
 <textarea
 value={comment}
 onChange={(event) =>
@@ -701,9 +788,11 @@ placeholder="Informations complémentaires"
 </div>
 
 <div className="booking-notice">
-Un acompte obligatoire de{" "}
-<strong>5 000 FCFA</strong> sera demandé
-pour confirmer votre réservation.
+<strong>Important :</strong> un
+acompte de{" "}
+<strong>5 000 FCFA</strong> est
+obligatoire pour confirmer votre
+réservation.
 </div>
 
 <button
@@ -713,7 +802,7 @@ disabled={bookingLoading}
 >
 {bookingLoading
 ? "Enregistrement…"
-: "Confirmer et payer l'acompte"}
+: "Confirmer et payer 5 000 FCFA"}
 </button>
 </form>
 
@@ -722,28 +811,7 @@ disabled={bookingLoading}
 {message}
 </div>
 )}
-</section>
-)}
-
-{selected &&
-!selected.appointment_required && (
-<section className="walkin-panel">
-<span className="eyebrow">
-SANS RENDEZ-VOUS
-</span>
-
-<h2>{selected.name}</h2>
-
-<p>
-Cette prestation est disponible sans
-rendez-vous. Vous pouvez venir directement
-à l'institut pendant les heures
-d'ouverture.
-</p>
-
-<strong>
-Ouvert de 10h à 21h
-</strong>
+</div>
 </section>
 )}
 </main>
