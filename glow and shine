@@ -1,0 +1,29 @@
+VITE_SUPABASE_URL=https://aneehtejwszqszkqzump.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_a_c7JR84PJjlO9Mw673NTg_iI8ycyY6
+VITE_WAVE_PAYMENT_URL=COLLER_ICI_LE_LIEN_WAVE
+
+<!doctype html><html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Glow & Shine — Réservation</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+{
+  "name": "glow-and-shine",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev":"vite","build":"vite build","preview":"vite preview"},
+  "dependencies": {"@supabase/supabase-js":"^2.57.0","vite":"^7.1.3","react":"^19.1.1","react-dom":"^19.1.1"},
+  "devDependencies": {}
+}
+# Glow & Shine
+
+Application de réservation pour Glow & Shine.
+
+## Installation
+1. Installer Node.js.
+2. Dans ce dossier : `npm install`
+3. Copier `.env.example` vers `.env`
+4. Mettre le vrai lien Wave dans `VITE_WAVE_PAYMENT_URL`.
+5. Lancer : `npm run dev`
+
+## Déploiement
+Le projet est prêt à être importé dans GitHub puis connecté à Vercel.
+
+Supabase utilisé : projet `Glow-and-Shine` (`aneehtejwszqszkqzump`).
