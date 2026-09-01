@@ -12,85 +12,61 @@ SUPABASE_URL && SUPABASE_KEY
 ? createClient(SUPABASE_URL, SUPABASE_KEY)
 : null;
 
-const fallbackImages = {
+const categoryImages = {
 Onglerie:
-"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=85",
-
-Ongles:
-"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=85",
-
+"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85",
 Pédicure:
-"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=1200&q=85",
-
+"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=900&q=85",
 Cils:
-"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1200&q=85",
-
-"Pose cils":
-"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1200&q=85",
-
+"https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=900&q=85",
 Sourcils:
-"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=1200&q=85",
-
+"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=900&q=85",
 Coiffure:
-"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
-
-"Coiffure enfant":
-"https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&q=85",
-
-Coiffures:
-"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
-
-"Soins capillaires":
-"https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=85",
-
+"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
 "Soins du visage":
-"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85",
-
-Visage:
-"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85",
-
-Piercing:
-"https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=1200&q=85",
+"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85",
+"Soins du corps":
+"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=85",
+Makeup:
+"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=85",
 };
 
 const defaultImage =
 "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85";
 
-/*
-Prestations de secours.
-Elles permettent au site de rester visible même si Supabase
-ne renvoie momentanément aucune donnée.
-*/
 const fallbackServices = [
 {
-id: "fallback-manucure",
+id: "fallback-1",
 category: "Onglerie",
 name: "Manucure",
+description: "Soin et mise en beauté des ongles.",
 min_price: 5000,
 max_price: 5000,
 duration_minutes: 60,
 appointment_required: true,
-image_url: fallbackImages.Onglerie,
+image_url: categoryImages.Onglerie,
 },
 {
-id: "fallback-pedicure",
+id: "fallback-2",
 category: "Pédicure",
-name: "Pédicure",
-min_price: 7000,
-max_price: 7000,
+name: "Pédicure complète",
+description: "Soin complet et mise en beauté des pieds.",
+min_price: 10000,
+max_price: 10000,
 duration_minutes: 60,
 appointment_required: true,
-image_url: fallbackImages.Pédicure,
+image_url: categoryImages.Pédicure,
 },
 {
-id: "fallback-cils",
+id: "fallback-3",
 category: "Cils",
 name: "Extension de cils",
+description: "Pose professionnelle pour sublimer le regard.",
 min_price: 15000,
 max_price: 15000,
 duration_minutes: 120,
 appointment_required: true,
-image_url: fallbackImages.Cils,
+image_url: categoryImages.Cils,
 },
 ];
 
@@ -102,24 +78,23 @@ if (min === max) {
 return `${min.toLocaleString("fr-FR")} FCFA`;
 }
 
-return `${min.toLocaleString(
+return `${min.toLocaleString("fr-FR")} – ${max.toLocaleString(
 "fr-FR"
-)} – ${max.toLocaleString("fr-FR")} FCFA`;
+)} FCFA`;
 }
 
-function getLocalDate() {
-const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, "0");
-const day = String(now.getDate()).padStart(2, "0");
+function getToday() {
+const date = new Date();
 
-return `${year}-${month}-${day}`;
+return `${date.getFullYear()}-${String(
+date.getMonth() + 1
+).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
 function Logo() {
 return (
 <div className="logo">
-<div className="logo-mark">G</div>
+<div className="logo-mark">G&S</div>
 
 <div className="logo-text">
 <div className="logo-name">
@@ -127,7 +102,7 @@ GLOW <span>&amp;</span> SHINE
 </div>
 
 <div className="logo-subtitle">
-INSTITUT DE BEAUTÉ
+BEAUTY CENTER
 </div>
 </div>
 </div>
@@ -139,23 +114,22 @@ const [services, setServices] = useState([]);
 const [category, setCategory] = useState("Toutes");
 const [selected, setSelected] = useState(null);
 
-const [date, setDate] = useState("");
+const [date, setDate] = useState(getToday());
 const [time, setTime] = useState("");
 
 const [name, setName] = useState("");
 const [phone, setPhone] = useState("");
 const [comment, setComment] = useState("");
 
-const [times, setTimes] = useState([]);
-const [message, setMessage] = useState("");
+const [availableTimes, setAvailableTimes] = useState([]);
 
 const [loading, setLoading] = useState(true);
 const [bookingLoading, setBookingLoading] = useState(false);
+const [message, setMessage] = useState("");
 
 useEffect(() => {
 async function loadServices() {
 setLoading(true);
-setMessage("");
 
 if (!supabase) {
 setServices(fallbackServices);
@@ -170,13 +144,11 @@ const { data, error } = await supabase
 .order("category")
 .order("name");
 
-if (error) {
-console.error("Supabase services:", error);
+if (error || !data?.length) {
+console.error(error);
 setServices(fallbackServices);
-} else if (data && data.length > 0) {
-setServices(data);
 } else {
-setServices(fallbackServices);
+setServices(data);
 }
 
 setLoading(false);
@@ -190,13 +162,11 @@ const values = services
 .map((service) => service.category)
 .filter(Boolean);
 
-return ["Toutes", ...Array.from(new Set(values))];
+return ["Toutes", ...new Set(values)];
 }, [services]);
 
 const displayedServices = useMemo(() => {
-if (category === "Toutes") {
-return services;
-}
+if (category === "Toutes") return services;
 
 return services.filter(
 (service) => service.category === category
@@ -204,133 +174,111 @@ return services.filter(
 }, [services, category]);
 
 useEffect(() => {
-async function loadAvailableTimes() {
-setTimes([]);
+async function loadTimes() {
+setAvailableTimes([]);
+setTime("");
 
-if (
-!selected ||
-!selected.appointment_required ||
-!date
-) {
-return;
-}
+if (!selected || !date || !supabase) return;
 
-if (!supabase) {
-return;
-}
+if (!selected.appointment_required) return;
 
 const selectedDate = new Date(`${date}T12:00:00`);
 const dayOfWeek = selectedDate.getDay();
 
-const { data: businessHours } = await supabase
+const { data: hours } = await supabase
 .from("business_hours")
 .select("*")
 .eq("day_of_week", dayOfWeek)
 .maybeSingle();
 
-if (!businessHours?.is_open) {
-return;
-}
+if (!hours?.is_open) return;
 
 const { data: bookings } = await supabase
 .from("bookings")
-.select(
-"booking_time, booking_status, service_id"
-)
-.eq("booking_date", date);
+.select("booking_time, booking_status")
+.eq("booking_date", date)
+.neq("booking_status", "cancelled");
 
-const { data: blockedSlots } = await supabase
+const { data: blocked } = await supabase
 .from("blocked_slots")
 .select("blocked_time")
 .eq("blocked_date", date);
 
 const taken = new Set(
-(bookings || [])
-.filter(
-(booking) =>
-booking.booking_status !== "cancelled"
-)
-.map((booking) =>
+(bookings || []).map((booking) =>
 String(booking.booking_time).slice(0, 5)
 )
 );
 
-const blocked = new Set(
-(blockedSlots || []).map((slot) =>
+const blockedTimes = new Set(
+(blocked || []).map((slot) =>
 String(slot.blocked_time).slice(0, 5)
 )
 );
 
-const available = [];
+const result = [];
 
-const opening = String(
-businessHours.opening_time
-).slice(0, 5);
-
-const closing = String(
-businessHours.closing_time
-).slice(0, 5);
-
-let [hour, minute] = opening
+let [hour, minute] = String(
+hours.opening_time
+)
+.slice(0, 5)
 .split(":")
 .map(Number);
 
-const [closingHour, closingMinute] = closing
+const [closeHour, closeMinute] = String(
+hours.closing_time
+)
+.slice(0, 5)
 .split(":")
 .map(Number);
 
-const openingMinutes = hour * 60 + minute;
-const closingMinutes =
-closingHour * 60 + closingMinute;
+const opening = hour * 60 + minute;
+const closing = closeHour * 60 + closeMinute;
 
 const duration = Number(
-selected.duration_minutes || 0
+selected.duration_minutes || 60
 );
 
-while (true) {
-const currentMinutes = hour * 60 + minute;
+while (hour * 60 + minute + duration <= closing) {
+const current = hour * 60 + minute;
 
-if (
-currentMinutes + duration >
-closingMinutes
-) {
-break;
-}
-
-const currentTime =
+const value =
 `${String(hour).padStart(2, "0")}:` +
 `${String(minute).padStart(2, "0")}`;
 
 if (
-currentMinutes >= openingMinutes &&
-!taken.has(currentTime) &&
-!blocked.has(currentTime)
+current >= opening &&
+!taken.has(value) &&
+!blockedTimes.has(value)
 ) {
-available.push(currentTime);
+result.push(value);
 }
 
 minute += 30;
 
 if (minute >= 60) {
-hour += 1;
+hour++;
 minute -= 60;
 }
 }
 
-setTimes(available);
+setAvailableTimes(result);
 }
 
-loadAvailableTimes();
-}, [date, selected]);
+loadTimes();
+}, [selected, date]);
 
-function selectService(service) {
+function chooseCategory(value) {
+setCategory(value);
+setSelected(null);
+setMessage("");
+}
+
+function chooseService(service) {
 setSelected(service);
-setDate("");
-setTime("");
-setTimes([]);
 setMessage("");
 
-window.setTimeout(() => {
+setTimeout(() => {
 if (service.appointment_required) {
 document
 .getElementById("booking")
@@ -339,16 +287,7 @@ behavior: "smooth",
 block: "start",
 });
 }
-}, 50);
-}
-
-function changeCategory(newCategory) {
-setCategory(newCategory);
-setSelected(null);
-setDate("");
-setTime("");
-setTimes([]);
-setMessage("");
+}, 100);
 }
 
 async function reserve(event) {
@@ -356,13 +295,21 @@ event.preventDefault();
 
 setMessage("");
 
-if (!selected?.appointment_required) {
+if (!selected) {
+setMessage("Veuillez choisir une prestation.");
 return;
 }
 
-if (!date || !time || !name.trim() || !phone.trim()) {
+if (!name.trim() || !phone.trim()) {
 setMessage(
-"Veuillez remplir tous les champs obligatoires."
+"Veuillez renseigner votre nom et votre numéro de téléphone."
+);
+return;
+}
+
+if (!date || !time) {
+setMessage(
+"Veuillez choisir une date et un créneau."
 );
 return;
 }
@@ -388,9 +335,7 @@ head: true,
 .eq("booking_date", date)
 .neq("booking_status", "cancelled");
 
-if (countError) {
-throw countError;
-}
+if (countError) throw countError;
 
 if (
 selected.daily_limit &&
@@ -412,11 +357,9 @@ await supabase
 .neq("booking_status", "cancelled")
 .limit(1);
 
-if (existingError) {
-throw existingError;
-}
+if (existingError) throw existingError;
 
-if (existing && existing.length > 0) {
+if (existing?.length) {
 setMessage(
 "Ce créneau vient d'être réservé. Veuillez en choisir un autre."
 );
@@ -437,28 +380,26 @@ payment_status: "pending",
 booking_status: "pending",
 });
 
-if (error) {
-throw error;
-}
+if (error) throw error;
 
 setMessage(
-"Réservation enregistrée. Redirection vers le paiement de l'acompte de 5 000 FCFA..."
+"Votre réservation est enregistrée. Paiement de l'acompte de 5 000 FCFA..."
 );
 
 if (
 WAVE_URL &&
 !WAVE_URL.includes("COLLER_")
 ) {
-window.setTimeout(() => {
+setTimeout(() => {
 window.location.href = WAVE_URL;
-}, 1200);
+}, 1000);
 }
 } catch (error) {
-console.error("Réservation:", error);
+console.error(error);
 
 setMessage(
 error?.message ||
-"Une erreur est survenue lors de la réservation."
+"Une erreur est survenue pendant la réservation."
 );
 } finally {
 setBookingLoading(false);
@@ -471,7 +412,7 @@ return (
 <Logo />
 
 <p className="header-text">
-Institut de beauté · Réservation en ligne
+L’élégance, la beauté, la confiance en vous.
 </p>
 </header>
 
@@ -479,19 +420,24 @@ Institut de beauté · Réservation en ligne
 <section className="hero">
 <div className="hero-inner">
 <span className="eyebrow">
-GLOW &amp; SHINE
+BIENVENUE CHEZ
 </span>
 
 <h1>
-Réservez votre
-<br />
-moment beauté
+Glow <span>&amp;</span> Shine
 </h1>
 
 <p>
-Découvrez nos prestations et choisissez
-votre soin en quelques clics.
+Révélez votre beauté avec nos soins
+professionnels et notre expertise.
 </p>
+
+<a
+href="#prestations"
+className="hero-button"
+>
+Découvrir nos prestations
+</a>
 </div>
 </section>
 
@@ -501,103 +447,84 @@ votre soin en quelques clics.
 NOS UNIVERS
 </span>
 
-<h2>Nos catégories</h2>
+<h2>Découvrez nos catégories</h2>
 
 <div className="category-list">
-{categories.map((item) => {
-const image =
-fallbackImages[item] ||
-defaultImage;
-
-return (
+{categories.map((item) => (
 <button
 key={item}
 type="button"
 className={`category-button ${
-category === item ? "active" : ""
+category === item
+? "active"
+: ""
 }`}
 onClick={() =>
-changeCategory(item)
+chooseCategory(item)
 }
 >
 {item !== "Toutes" && (
 <img
-src={image}
+src={
+categoryImages[item] ||
+defaultImage
+}
 alt=""
 />
 )}
 
 <span>{item}</span>
 </button>
-);
-})}
+))}
 </div>
 </div>
 </section>
 
-<section className="services-section">
+<section
+id="prestations"
+className="services-section"
+>
 <div className="container">
 <div className="section-top">
 <div>
 <span className="eyebrow">
-PRESTATIONS
+NOS PRESTATIONS
 </span>
 
 <h2>
 {category === "Toutes"
-? "Toutes nos prestations"
+? "Nos prestations"
 : category}
 </h2>
 </div>
-
-{!loading && (
-<span className="service-count">
-{displayedServices.length} prestation
-{displayedServices.length > 1
-? "s"
-: ""}
-</span>
-)}
 </div>
 
 {loading ? (
 <div className="state-box">
 Chargement des prestations…
 </div>
-) : displayedServices.length === 0 ? (
-<div className="state-box">
-Aucune prestation disponible.
-</div>
 ) : (
 <div className="services-grid">
-{displayedServices.map((service) => {
-const appointmentRequired =
-Boolean(
-service.appointment_required
-);
-
-const image =
-service.image_url ||
-fallbackImages[
-service.category
-] ||
-defaultImage;
-
-return (
+{displayedServices.map(
+(service) => (
 <article
 key={service.id}
 className={`service-card ${
-selected?.id === service.id
+selected?.id ===
+service.id
 ? "selected"
 : ""
 }`}
-onClick={() =>
-selectService(service)
-}
 >
 <div className="service-image">
 <img
-src={image}
+src={
+service.image_url ||
+categoryImages[
+service.category
+] ||
+defaultImage
+}
 alt={service.name}
 loading="lazy"
 onError={(event) => {
@@ -606,14 +533,8 @@ defaultImage;
 }}
 />
 
-<span
-className={`service-badge ${
-appointmentRequired
-? "appointment"
-: "walkin"
-}`}
->
-{appointmentRequired
+<span className="service-badge">
+{service.appointment_required
 ? "Sur rendez-vous"
 : "Sans rendez-vous"}
 </span>
@@ -637,196 +558,184 @@ appointmentRequired
 {formatPrice(service)}
 </strong>
 
-{service.duration_minutes && (
 <span>
-{service.duration_minutes} min
+{service.duration_minutes
+? `${service.duration_minutes} min`
+: ""}
 </span>
-)}
 </div>
 
-{appointmentRequired ? (
+{service.appointment_required ? (
 <button
 type="button"
 className="service-action"
-onClick={(event) => {
-event.stopPropagation();
-selectService(service);
-}}
+onClick={() =>
+chooseService(
+service
+)
+}
 >
 Réserver
 </button>
 ) : (
 <div className="no-appointment">
-Disponible sans rendez-vous
+Disponible sans
+rendez-vous
 </div>
 )}
 </div>
 </article>
-);
-})}
+)
+)}
 </div>
 )}
 </div>
 </section>
 
-{selected &&
-selected.appointment_required && (
 <section
 id="booking"
 className="booking-section"
 >
 <div className="booking-card">
-<div className="booking-header">
-<div>
 <span className="eyebrow">
 RÉSERVATION
 </span>
 
-<h2>{selected.name}</h2>
+<h2>
+{selected
+? selected.name
+: "Réservez votre rendez-vous"}
+</h2>
 
-<p>
-Choisissez votre date et votre
-créneau.
+{!selected ? (
+<p className="booking-intro">
+Sélectionnez une prestation
+ci-dessus pour continuer.
 </p>
-</div>
-
+) : (
+<form onSubmit={reserve}>
 <div className="booking-price">
-<span>Acompte</span>
+<span>Acompte obligatoire</span>
 <strong>5 000 FCFA</strong>
 </div>
-</div>
 
-<form onSubmit={reserve}>
 <div className="form-grid">
 <label>
-<span>Date *</span>
-
+Nom complet *
 <input
-type="date"
-min={getLocalDate()}
-value={date}
-onChange={(event) => {
-setDate(event.target.value);
-setTime("");
-setMessage("");
-}}
-required
-/>
-</label>
-
-<label>
-<span>Créneau *</span>
-
-<select
-value={time}
-onChange={(event) =>
-setTime(event.target.value)
-}
-disabled={!date}
-required
->
-<option value="">
-{date
-? times.length
-? "Choisir un créneau"
-: "Aucun créneau disponible"
-: "Choisir d'abord une date"}
-</option>
-
-{times.map((item) => (
-<option
-key={item}
-value={item}
->
-{item}
-</option>
-))}
-</select>
-</label>
-
-<label>
-<span>Nom complet *</span>
-
-<input
-type="text"
 value={name}
-onChange={(event) =>
-setName(event.target.value)
+onChange={(e) =>
+setName(e.target.value)
 }
-placeholder="Votre nom complet"
+placeholder="Votre nom"
 required
 />
 </label>
 
 <label>
-<span>Téléphone *</span>
-
+Téléphone *
 <input
-type="tel"
 value={phone}
-onChange={(event) =>
-setPhone(event.target.value)
+onChange={(e) =>
+setPhone(e.target.value)
 }
 placeholder="77 XXX XX XX"
 required
 />
 </label>
 
-<label className="full">
-<span>Commentaire</span>
+<label>
+Date *
+<input
+type="date"
+min={getToday()}
+value={date}
+onChange={(e) =>
+setDate(e.target.value)
+}
+required
+/>
+</label>
 
+<label>
+Heure *
+<select
+value={time}
+onChange={(e) =>
+setTime(e.target.value)
+}
+required
+>
+<option value="">
+Choisir une heure
+</option>
+
+{availableTimes.map(
+(slot) => (
+<option
+key={slot}
+value={slot}
+>
+{slot}
+</option>
+)
+)}
+</select>
+</label>
+
+<label className="full">
+Message
 <textarea
 value={comment}
-onChange={(event) =>
-setComment(
-event.target.value
-)
+onChange={(e) =>
+setComment(e.target.value)
 }
-placeholder="Informations complémentaires"
+placeholder="Une précision concernant votre rendez-vous ?"
 />
 </label>
 </div>
 
 <div className="booking-notice">
-<strong>Important :</strong> un
-acompte de{" "}
-<strong>5 000 FCFA</strong> est
-obligatoire pour confirmer votre
-réservation.
+Votre rendez-vous sera confirmé
+après paiement de l’acompte de{" "}
+<strong>5 000 FCFA</strong>.
 </div>
 
 <button
-type="submit"
 className="submit-button"
+type="submit"
 disabled={bookingLoading}
 >
 {bookingLoading
-? "Enregistrement…"
-: "Confirmer et payer 5 000 FCFA"}
+? "Traitement..."
+: "Continuer vers le paiement"}
 </button>
-</form>
 
 {message && (
 <div className="booking-message">
 {message}
 </div>
 )}
+</form>
+)}
 </div>
 </section>
-)}
 </main>
 
 <footer className="site-footer">
 <Logo />
 
 <p>
-Glow &amp; Shine · Ouvert de 10h à 21h
+© {new Date().getFullYear()} Glow &
+Shine — Tous droits réservés.
 </p>
 </footer>
 </div>
 );
 }
 
-createRoot(
-document.getElementById("root")
-).render(<App />);
+createRoot(document.getElementById("root")).render(
+<React.StrictMode>
+<App />
+</React.StrictMode>
+);
